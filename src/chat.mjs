@@ -347,6 +347,22 @@ export class ChatRoom {
           return;
         }
 
+        if (data.ping !== undefined) {
+          this.broadcast(JSON.stringify({
+            name: session.name,
+            ping: data.ping,
+          }));
+          return;
+        }
+
+        if (data.pong !== undefined) {
+          this.sendTo(JSON.stringify({
+            name: session.name,
+            pong: data.pong,
+          }), data.pingSender);
+          return;
+        }
+
         // Construct sanitized message for storage and broadcast.
         data = { name: session.name, message: "" + data.message };
 
@@ -424,5 +440,18 @@ export class ChatRoom {
         this.broadcast({quit: quitter.name});
       }
     });
+  }
+
+  sendTo(message, recipientName) {
+    this.sessions
+      .filter(session => session.name === recipientName)
+      .forEach(session => {
+        try {
+          session.webSocket.send(message);
+        } catch (err) {
+          console.log("error: " + err);
+          // TODO: quit handling
+        }
+      });
   }
 }
