@@ -2,7 +2,7 @@ name = "edge-chat-demo"
 type = "javascript"
 workers_dev = true
 # Add your account ID here
-account_id = ""
+account_id = "2ccb840de076261467812cbc32f8aa47"
 
 [build.upload]
 format = "modules"
@@ -12,6 +12,5 @@ rules = [{type = "Data", globs = ["**/*.html"]}]
 
 [durable_objects]
 bindings = [
-  { name = "rooms", class_name = "ChatRoom" },
-  { name = "limiters", class_name = "RateLimiter" }
+  { name = "rooms", class_name = "ChatRoom" }
 ]
